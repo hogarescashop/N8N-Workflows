@@ -1,0 +1,249 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-11T15:33:07.250Z",
+  "id": "Uax01O7UcT9wtKF2",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "IF Y SWITCH",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1000,
+        -560
+      ],
+      "id": "411dee5f-9843-460b-bb00-fc8f185da31a",
+      "name": "When chat message received",
+      "webhookId": "e2f039b3-a282-4745-a89f-698389fb18dc"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "Hola",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bc60d101-5940-4497-b0c7-fc2800e55b45"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Saludo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1b000bc5-6c31-428a-a01c-234c82d6696f",
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "Adios",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Despedida "
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "No se que me quieres decir"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -640,
+        -520
+      ],
+      "id": "dcd478dc-864a-4ff5-b354-6d194f9e413c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "5346776407",
+        "text": "Hola como estas",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -180,
+        -620
+      ],
+      "id": "084607f8-1761-4f2c-9aa6-8d648ce0d952",
+      "name": "Telegram",
+      "webhookId": "0117af34-18c9-4ffb-9a7c-3f606e76f86c",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5346776407",
+        "text": "Hasta luego",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        -500
+      ],
+      "id": "6d8fe0c3-eb4f-480f-84ad-5fcaea6d2134",
+      "name": "Telegram1",
+      "webhookId": "0117af34-18c9-4ffb-9a7c-3f606e76f86c",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9b44a739-b52e-4daf-80d0-7600ddb0e7a1",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "Hola",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -660,
+        -720
+      ],
+      "id": "e6aecbee-f8aa-4f4a-9dda-9ba4b980902d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "5346776407",
+        "text": "No se que me quieres decir",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -140,
+        -340
+      ],
+      "id": "d9186b81-a3ea-427b-83e7-53dec038f20a",
+      "name": "Telegram2",
+      "webhookId": "d2e3fb91-d8f4-47f7-9e2c-aa5fab991953",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-11T18:27:24.000Z",
+  "versionId": "80f64d7c-af9f-4546-87f9-632fd9681fe4"
+}
