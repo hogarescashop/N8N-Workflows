@@ -1,0 +1,192 @@
+{
+  "active": true,
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-13T11:09:29.700Z",
+  "id": "hqq3dbomA3yoylfk",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 6",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "text-embedding-3-small",
+        "options": {}
+      },
+      "id": "2f1483f5-8f81-4bf2-9a7c-0ca4f3dd684c",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        240
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -580,
+        -80
+      ],
+      "id": "92f85940-c084-4e75-8fb6-34b6bab2dd94",
+      "name": "When chat message received",
+      "webhookId": "d4c95be7-1f2b-44af-a32b-4811c4de9dea"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Eres un agente experto, profesional y muy amable, especializado en orientar a personas interesadas en formarse en inteligencia artificial y automatizaciones dentro del ecosistema de UDIA.\n\nTienes acceso a toda la información de UDIA a través de la herramienta Infoudia, por lo que puedes responder con precisión, detalle y empatía cualquier consulta relacionada con cursos, herramientas, recursos, instructores, itinerarios de formación o eventos de la plataforma.\n\nTu objetivo es guiar a los usuarios de manera clara, motivadora y personalizada, resolviendo sus dudas y ayudándoles a tomar decisiones informadas sobre su formación en IA y automatización."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -360,
+        -80
+      ],
+      "id": "bbbc7972-0f6d-4ba2-9400-59614692590d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        100
+      ],
+      "id": "31c110bf-d258-4c8a-92d2-e511433b1054",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -300,
+        100
+      ],
+      "id": "6c042d67-1af3-4281-bb51-e6d0d4098f9a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "Infoudia",
+        "toolDescription": "Trabaja con tu pinecone vector store donde tienes toda la información sobre UDIA.es y lo que hacen",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ragudia",
+          "mode": "list",
+          "cachedResultName": "ragudia"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        80
+      ],
+      "id": "fe67d061-2f6a-4083-9f8f-74f52ea6b995",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "HoW0ZiSKvkS6LruJ",
+          "name": "PineconeApi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2025-04-13T15:21:35.000Z",
+  "versionId": "694edb4d-838d-43df-923a-9590ecb534fd"
+}
