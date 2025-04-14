@@ -1,0 +1,546 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Cambiar día/mes/año de la fecha recibida",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extraer alguna parte de la fecha",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cambiar formato de la fecha ",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Restar algo de la fecha",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Scrapear la información que quieras",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrapear la información que quieras": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Rename Keys",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Resumir y Contar datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename Keys": {
+      "main": [
+        [
+          {
+            "node": "Ordenar datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Cambiar formato y tamaño",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Compression",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-12T09:49:25.968Z",
+  "id": "XWF0HaLfd3uo6PaQ",
+  "meta": null,
+  "name": "Nodos de todo tipo",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        -340
+      ],
+      "id": "5aba7fb1-420e-4efa-9d6b-8defd08ba69f",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://www.wired.com/feed/category/business/latest/rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        280,
+        -320
+      ],
+      "id": "924182bc-e055-4284-924a-385da2f5795e",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.isoDate }}",
+        "timeUnit": "years",
+        "duration": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        820,
+        -1080
+      ],
+      "id": "1d2760d2-1623-4e47-b288-025be0b2a114",
+      "name": "Cambiar día/mes/año de la fecha recibida"
+    },
+    {
+      "parameters": {
+        "operation": "extractDate",
+        "date": "={{ $json.isoDate }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        840,
+        -900
+      ],
+      "id": "138653e7-5505-4c6f-b66b-56e3d93b2550",
+      "name": "Extraer alguna parte de la fecha"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.isoDate }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        840,
+        -720
+      ],
+      "id": "daf2ba55-7ac0-4bcf-917f-15356f7650d1",
+      "name": "Cambiar formato de la fecha "
+    },
+    {
+      "parameters": {
+        "operation": "subtractFromDate",
+        "magnitude": "={{ $json.isoDate }}",
+        "timeUnit": "years",
+        "duration": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        860,
+        -580
+      ],
+      "id": "c88029f4-1d1f-44e4-be17-84b33a194439",
+      "name": "Restar algo de la fecha"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5fd706b5-e66d-4123-94b6-2a9217a0e464",
+              "leftValue": "={{ $json.creator }}",
+              "rightValue": "=Joel Khalili",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -440
+      ],
+      "id": "9cd53679-c8e9-43d0-aa7f-06729f425b41",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -320
+      ],
+      "id": "90a82e23-28b5-4bba-b1c5-c586d2cecd8e",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "compare": "allFieldsExcept",
+        "fieldsToExclude": "creator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        900,
+        -180
+      ],
+      "id": "ed7aad36-f628-4395-bf5a-bb7bab2ded2d",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "content",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        900,
+        -40
+      ],
+      "id": "525c01b6-d14a-49ae-9188-5d5c1163b59d",
+      "name": "Scrapear la información que quieras"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "content",
+              "renameField": true,
+              "outputFieldName": "texto"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        -40
+      ],
+      "id": "d993d22e-a2f9-4c39-b0ff-5b2db5b6a33e",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        40
+      ],
+      "id": "77675b2a-8716-490b-b037-ddef7ed1e124",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        540,
+        -20
+      ],
+      "id": "932fc0c2-8b4c-4928-bf05-8d22f903873b",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "keys": {
+          "key": [
+            {
+              "currentKey": "creator",
+              "newKey": "dueño"
+            },
+            {
+              "currentKey": "title",
+              "newKey": "enunciado"
+            }
+          ]
+        },
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.renameKeys",
+      "typeVersion": 1,
+      "position": [
+        900,
+        140
+      ],
+      "id": "9e34a00f-1e21-49c8-bfd1-0e2a96589b66",
+      "name": "Rename Keys"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "isoDate"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        140
+      ],
+      "id": "060e35f3-f6a8-4bae-9435-7f03925769d9",
+      "name": "Ordenar datos"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "field": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        940,
+        320
+      ],
+      "id": "ce281eb4-be5d-483b-969a-3388ba646a79",
+      "name": "Resumir y Contar datos"
+    },
+    {
+      "parameters": {
+        "url": "https://www.carpixel.net/w/b94c9e9a5ce2ce55a316e3d51e42af73/audi-rs-3-sportback-performance-edition-wallpaper-hd-116753.jpg",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        320
+      ],
+      "id": "933e2577-8a61-4ac5-a487-8f32e9ba0da2",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "resize",
+        "height": 300,
+        "resizeOption": "ignoreAspectRatio",
+        "options": {
+          "format": "png"
+        }
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        480,
+        300
+      ],
+      "id": "3f7236f6-232c-4ef8-8489-0cd3cba83a2c",
+      "name": "Cambiar formato y tamaño"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "fontSize": 60,
+        "fontColor": "#FF0000",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        460,
+        420
+      ],
+      "id": "a55e9be2-4829-4a4f-9e7e-38a1b8d55574",
+      "name": "Edit Image"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        940,
+        500
+      ],
+      "id": "53a4c0c0-8891-4bac-8127-73156070105b",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "compress",
+        "fileName": "rss_data.zip"
+      },
+      "type": "n8n-nodes-base.compression",
+      "typeVersion": 1.1,
+      "position": [
+        1160,
+        420
+      ],
+      "id": "cbf9a4f8-2ecd-4a3e-913e-8b054f7a91d2",
+      "name": "Compression"
+    },
+    {
+      "parameters": {
+        "binaryData": true
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        640
+      ],
+      "id": "e80ef55b-1356-4611-b957-38ac73d16495",
+      "name": "Crypto"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-12T11:55:24.000Z",
+  "versionId": "35d6e941-2d08-4f3f-a4d5-2ff4a36d4f36"
+}
