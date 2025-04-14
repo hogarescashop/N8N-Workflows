@@ -1,0 +1,357 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Google": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-12T15:57:12.246Z",
+  "id": "91PtHPBAv6Cg9M9K",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Agente de Scrapeo de Urls",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -880,
+        -200
+      ],
+      "id": "0670a7f2-bcea-4b6d-95a3-c0626a52fa62",
+      "name": "When chat message received",
+      "webhookId": "c183658c-488a-4041-ad18-61340d5d8788"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1W_b5cxVWm7CrPi94F_pdtJx9t_z_iw03YetecBLfncU",
+          "mode": "list",
+          "cachedResultName": "N8N 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W_b5cxVWm7CrPi94F_pdtJx9t_z_iw03YetecBLfncU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W_b5cxVWm7CrPi94F_pdtJx9t_z_iw03YetecBLfncU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Busqueda ": "={{ $json.chatInput }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Busqueda ",
+              "displayName": "Busqueda ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Respuesta ",
+              "displayName": "Respuesta ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -680,
+        -200
+      ],
+      "id": "2bf131e5-df3e-450c-bf83-499f99672b0c",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQiyCVBs2uBQ1gHj",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Esta herramienta busca en Google usando los términos que indica el usuario ",
+        "url": "https://real-time-web-search.p.rapidapi.com/search",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {
+              "name": "q"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "x-rapidapi-host",
+              "valueProvider": "fieldValue",
+              "value": "real-time-web-search.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "valueProvider": "fieldValue",
+              "value": "6b1df0fd28mshf4cf3463fe9434bp1e0e41jsnac8599087f1e"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -440,
+        40
+      ],
+      "id": "03a35e44-a1c2-4661-8642-a99a661c7194",
+      "name": "API Google"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('When chat message received').item.json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -560,
+        40
+      ],
+      "id": "34d41867-2b21-476b-a7f3-ac6594544337",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-001",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        40
+      ],
+      "id": "11d0e3e3-5740-4a64-bceb-f2631a3c1442",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Jaf1kR76iaKdVY4m",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }} ",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Eres un asistente que me ayuda a buscar en Google con la herramienta: API Google todas las url de la búsqueda que te pida por chat el usuario. \n\nSiempre contestaras únicamente el listado de nombres y urls que venga de la herramienta API Google "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -500,
+        -200
+      ],
+      "id": "605c14d9-f659-4241-84c9-dccda35c5084",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"resultados\": [\n    {\n      \"nombre\": \"Nombre de la Web 1\",\n      \"url\": \"http://miweb1.com\"\n    },\n    {\n      \"nombre\": \"Nombre de la Web 2\",\n      \"url\": \"http://miweb2.com\"\n    },\n    {\n      \"nombre\": \"Nombre de la Web 3\",\n      \"url\": \"http://miweb3.com\"\n    },\n    {\n      \"nombre\": \"Nombre de la Web 4\",\n      \"url\": \"http://miweb4.com\"\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -280,
+        40
+      ],
+      "id": "ede98962-544d-402f-a310-848f633794f4",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1W_b5cxVWm7CrPi94F_pdtJx9t_z_iw03YetecBLfncU",
+          "mode": "list",
+          "cachedResultName": "N8N 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W_b5cxVWm7CrPi94F_pdtJx9t_z_iw03YetecBLfncU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W_b5cxVWm7CrPi94F_pdtJx9t_z_iw03YetecBLfncU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Busqueda ": "={{ $('Google Sheets').item.json['Busqueda '] }}",
+            "Respuesta ": "={{ $json.output.resultados }}"
+          },
+          "matchingColumns": [
+            "Busqueda "
+          ],
+          "schema": [
+            {
+              "id": "Busqueda ",
+              "displayName": "Busqueda ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta ",
+              "displayName": "Respuesta ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -160,
+        -200
+      ],
+      "id": "d862a041-a780-4a30-959b-52d728f064b2",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQiyCVBs2uBQ1gHj",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-12T20:55:42.000Z",
+  "versionId": "fdc24853-94cd-46cb-be54-fc8264aad44a"
+}
