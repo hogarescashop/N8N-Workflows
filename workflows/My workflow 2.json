@@ -1,0 +1,101 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-11T18:33:40.339Z",
+  "id": "uQv1h2COO6mSkm6d",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "16e25241-5501-444a-9f55-050622a46684",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "base",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        200,
+        -80
+      ],
+      "id": "cbcfbeae-830f-44aa-b74f-60b3a281ac00",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "7dQBhYYvlblHIQMa",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Hola como puedo empezar una agencia de IA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        200,
+        100
+      ],
+      "id": "0d792484-6ad5-4eac-b6a5-fcb584d970b3",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-11T18:42:38.000Z",
+  "versionId": "334e8fc7-eff5-4964-926e-a78cfc140a20"
+}
