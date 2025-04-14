@@ -1,0 +1,274 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-14T01:18:50.804Z",
+  "id": "PQE2xNb7ykO6f55n",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Implementando Loop",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -60
+      ],
+      "id": "3a548350-e810-42c0-a630-291fefb85d22",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://es.wired.com/feed/rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        -200,
+        -60
+      ],
+      "id": "8565d6c6-9d32-4ac2-af58-6dea11654346",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "batchSize": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -20,
+        -60
+      ],
+      "id": "280f1c71-acd2-4217-9ec3-d56c28268613",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "80e23ee8-143c-410d-a7af-b1cda7f51243",
+              "name": "título_modificado",
+              "value": "=UDIA: {{ $json.title }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -40
+      ],
+      "id": "89fb9627-35a5-4a2a-b00d-53fb5a6df034",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1W1Da1idt2Itz-8j_4jKcKbu__Gi8o9cITFQCdLKgIgo",
+          "mode": "list",
+          "cachedResultName": "Todo sobre los loops",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W1Da1idt2Itz-8j_4jKcKbu__Gi8o9cITFQCdLKgIgo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W1Da1idt2Itz-8j_4jKcKbu__Gi8o9cITFQCdLKgIgo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Título": "={{ $json['título_modificado'] }}",
+            "Descripción": "={{ $('Loop Over Items').item.json.content }}",
+            "Autor": "={{ $('Loop Over Items').item.json.creator }}",
+            "Fecha ": "={{ $('Loop Over Items').item.json.isoDate }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Título",
+              "displayName": "Título",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descripción",
+              "displayName": "Descripción",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Autor",
+              "displayName": "Autor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha ",
+              "displayName": "Fecha ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        460,
+        -40
+      ],
+      "id": "ef2ef8de-8c14-49fe-b34e-10e6626effc9",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQiyCVBs2uBQ1gHj",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5346776407",
+        "text": "¡Loot completado!",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        -220
+      ],
+      "id": "3ed91072-2314-456b-85e5-cdb5f6a8db32",
+      "name": "Telegram",
+      "webhookId": "12bc6485-b9ea-4c16-9d2d-1981f53d0ebc",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        120,
+        -220
+      ],
+      "id": "f189e51c-4be6-473e-8027-f61c237d71f7",
+      "name": "Limit"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-14T01:52:41.000Z",
+  "versionId": "c3efe14c-e849-48e4-97aa-c97502a33756"
+}
