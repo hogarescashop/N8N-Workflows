@@ -1,0 +1,103 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-04-12T11:56:33.306Z",
+  "id": "JbE5RbneG2LUQehf",
+  "meta": null,
+  "name": "Workflow code",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "15a52975-7656-4b5b-bb2b-d1cd5c5c0289",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://www.techradar.com/feeds.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        0
+      ],
+      "id": "e68d0249-d2df-4519-bc33-bb6b60f75f16",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "jsCode": "const itemsOut = [];\n\nfor (const item of items) {\n  const newItem = { ...item.json };\n  \n  // Buscar imagen desde content:encoded si existe\n  const contentEncoded = item.json[\"content:encoded\"];\n  let imageUrl = null;\n\n  if (contentEncoded) {\n    const match = contentEncoded.match(/<img[^>]+src=\"([^\">]+)\"/i);\n    if (match && match[1]) {\n      imageUrl = match[1];\n    }\n  }\n\n  // Si no hay imagen en content:encoded, usar enclosure\n  if (!imageUrl && item.json.enclosure?.url) {\n    imageUrl = item.json.enclosure.url;\n  }\n\n  // Agregar campo \"image\" al objeto\n  newItem.image = imageUrl || null;\n\n  itemsOut.push({ json: newItem });\n}\n\nreturn itemsOut;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        360,
+        -60
+      ],
+      "id": "313ef5ce-2261-4084-8407-c533f99d40ac",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "const itemsOut = [];\n\nfor (const item of items) {\n  const newItem = { ...item.json };\n  \n  const title = newItem.title || \"\";\n\n  if (title.toLowerCase().includes(\"open source\")) {\n    newItem.title = `UDIA ${title}`;\n  }\n\n  itemsOut.push({ json: newItem });\n}\n\nreturn itemsOut;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        360,
+        100
+      ],
+      "id": "780dd8f9-3601-4cb4-951e-6fa8c6a13c3a",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-12T12:39:02.000Z",
+  "versionId": "a60b55a6-9f19-4871-9239-a9ca33878794"
+}
