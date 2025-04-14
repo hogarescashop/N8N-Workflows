@@ -1,0 +1,44 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-04-12T13:28:45.237Z",
+  "id": "uWYSsz28lMY4q74X",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "udiasecurity",
+        "authentication": "jwtAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2727321a-7958-4a11-b4ea-d487b6a349d6",
+      "name": "Webhook",
+      "webhookId": "84318255-99cf-4d3d-bf6f-4580f11519d2",
+      "credentials": {
+        "jwtAuth": {
+          "id": "l3Hr9naLVkPfccM1",
+          "name": "JWT Auth account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-12T14:29:58.000Z",
+  "versionId": "044f326f-9886-442c-a575-1688fadb31fb"
+}
