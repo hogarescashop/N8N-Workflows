@@ -1,183 +1,231 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
-    "Embeddings OpenAI": {
-      "ai_embedding": [
-        [
-          {
-            "node": "Pinecone Vector Store1",
-            "type": "ai_embedding",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When chat message received": {
+    "variables": {
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Accedo al Sitemap",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
+    "Accedo al Sitemap": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
+            "node": "Convierto a XML",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Simple Memory": {
-      "ai_memory": [
+    "Convierto a XML": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_memory",
+            "node": "Extraigo lo que necesito",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Pinecone Vector Store1": {
-      "ai_tool": [
+    "Extraigo lo que necesito": {
+      "main": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_tool",
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "variables",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     }
   },
-  "createdAt": "2025-04-13T11:09:29.700Z",
-  "id": "hqq3dbomA3yoylfk",
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "createdAt": "2025-04-14T15:23:11.405Z",
+  "id": "LYmiBmi9BmpUM6WE",
+  "meta": null,
   "name": "My workflow 6",
   "nodes": [
     {
-      "parameters": {
-        "model": "text-embedding-3-small",
-        "options": {}
-      },
-      "id": "2f1483f5-8f81-4bf2-9a7c-0ca4f3dd684c",
-      "name": "Embeddings OpenAI",
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -100,
-        240
+        0,
+        0
       ],
-      "credentials": {
-        "openAiApi": {
-          "id": "Tnc8Gv0yuvWrwgr0",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "7f473d2f-0ea3-4962-91b2-96bce3501d9d",
+      "name": "When clicking ‘Test workflow’"
     },
     {
       "parameters": {
-        "public": true,
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -580,
-        -80
-      ],
-      "id": "92f85940-c084-4e75-8fb6-34b6bab2dd94",
-      "name": "When chat message received",
-      "webhookId": "d4c95be7-1f2b-44af-a32b-4811c4de9dea"
-    },
-    {
-      "parameters": {
-        "options": {
-          "systemMessage": "Eres un agente experto, profesional y muy amable, especializado en orientar a personas interesadas en formarse en inteligencia artificial y automatizaciones dentro del ecosistema de UDIA.\n\nTienes acceso a toda la información de UDIA a través de la herramienta Infoudia, por lo que puedes responder con precisión, detalle y empatía cualquier consulta relacionada con cursos, herramientas, recursos, instructores, itinerarios de formación o eventos de la plataforma.\n\nTu objetivo es guiar a los usuarios de manera clara, motivadora y personalizada, resolviendo sus dudas y ayudándoles a tomar decisiones informadas sobre su formación en IA y automatización."
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.8,
-      "position": [
-        -360,
-        -80
-      ],
-      "id": "bbbc7972-0f6d-4ba2-9400-59614692590d",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "639636c5-3b6d-4f96-b964-7e37ad2d896e",
+              "name": "sitemap",
+              "value": "https://mascotalandia.es/sitemap-products-1-es.xml",
+              "type": "string"
+            }
+          ]
         },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        0
+      ],
+      "id": "28420439-ba82-4bb9-98af-2fbe4d7b8ae3",
+      "name": "variables"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.sitemap }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        0
+      ],
+      "id": "6b308afa-0c5f-4d8a-891d-000d40c22392",
+      "name": "Accedo al Sitemap"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        460,
+        0
+      ],
+      "id": "e561c507-3267-4af1-bd13-899c040edf3d",
+      "name": "Convierto a XML"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "urlset.url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        620,
+        0
+      ],
+      "id": "b6e5fdf1-dca8-4da7-a0ea-decb8d347570",
+      "name": "Extraigo lo que necesito"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "0gjQxIZa6qZDXSzg",
+          "mode": "list",
+          "cachedResultName": "Extractor de información"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -420,
+        1200,
         100
       ],
-      "id": "31c110bf-d258-4c8a-92d2-e511433b1054",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "Tnc8Gv0yuvWrwgr0",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        -300,
-        100
-      ],
-      "id": "6c042d67-1af3-4281-bb51-e6d0d4098f9a",
-      "name": "Simple Memory"
+      "id": "beace534-4b07-4d0e-8413-0d4db092451c",
+      "name": "Execute Workflow"
     },
     {
       "parameters": {
-        "mode": "retrieve-as-tool",
-        "toolName": "Infoudia",
-        "toolDescription": "Trabaja con tu pinecone vector store donde tienes toda la información sobre UDIA.es y lo que hacen",
-        "pineconeIndex": {
-          "__rl": true,
-          "value": "ragudia",
-          "mode": "list",
-          "cachedResultName": "ragudia"
-        },
-        "topK": 5,
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        780,
+        0
+      ],
+      "id": "6ba98e8b-f842-456e-98c3-51494f0a89a9",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
       "position": [
-        -140,
-        80
+        1000,
+        0
       ],
-      "id": "fe67d061-2f6a-4083-9f8f-74f52ea6b995",
-      "name": "Pinecone Vector Store1",
-      "credentials": {
-        "pineconeApi": {
-          "id": "HoW0ZiSKvkS6LruJ",
-          "name": "PineconeApi account"
-        }
-      }
+      "id": "8fddf4e4-a6ba-4073-bcd5-b54e5bdff6bd",
+      "name": "Loop Over Items"
     }
   ],
   "pinData": {},
@@ -186,7 +234,7 @@
   },
   "staticData": null,
   "tags": [],
-  "triggerCount": 2,
-  "updatedAt": "2025-04-13T15:21:35.000Z",
-  "versionId": "694edb4d-838d-43df-923a-9590ecb534fd"
+  "triggerCount": 0,
+  "updatedAt": "2025-04-14T16:12:36.000Z",
+  "versionId": "baa4bd3a-50b5-47f5-97fc-85723f88af96"
 }
