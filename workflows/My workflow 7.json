@@ -184,7 +184,9 @@
   },
   "createdAt": "2025-04-14T10:32:04.046Z",
   "id": "YQsshvbaiCt5qsct",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "My workflow 7",
   "nodes": [
     {
@@ -217,6 +219,12 @@
       ],
       "typeVersion": 1,
       "alwaysOutputData": true,
+      "credentials": {
+        "githubApi": {
+          "id": "BJTIw0cM8X3MaqFr",
+          "name": "GitHub account"
+        }
+      },
       "continueOnFail": true
     },
     {
@@ -298,7 +306,13 @@
         160,
         320
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "credentials": {
+        "githubApi": {
+          "id": "BJTIw0cM8X3MaqFr",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -316,7 +330,13 @@
         160,
         560
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "credentials": {
+        "githubApi": {
+          "id": "BJTIw0cM8X3MaqFr",
+          "name": "GitHub account"
+        }
+      }
     },
     {
       "parameters": {
@@ -350,7 +370,13 @@
         -1160,
         340
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "WIWzlA3rLpfFrntb",
+          "name": "n8n account"
+        }
+      }
     },
     {
       "parameters": {
@@ -437,6 +463,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-14T10:38:40.000Z",
-  "versionId": "4c78bf21-6392-43c8-b902-5db8609d5801"
+  "updatedAt": "2025-04-14T11:06:37.000Z",
+  "versionId": "5e57e0a6-ef36-4e56-8bab-79c467b75b8e"
 }
