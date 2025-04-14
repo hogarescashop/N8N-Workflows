@@ -1,0 +1,308 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Assign file to VS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-12T23:03:19.317Z",
+  "id": "i27hVgFZZj9y3Qud",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Asistente de Openai",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e7af26e1-6446-46b9-81c9-ae2a4ba4676b",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "binary.data.data",
+        "options": {
+          "fileName": "={{ $json.binary.data.fileName }}"
+        }
+      },
+      "id": "723d8e0a-1463-4f24-92a1-f3faa527be94",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        520,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "06653675-f3a4-42d2-8d13-b1ea2cfc72de",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        380,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ff077fe3-6695-4f78-bb2f-f103025bd1cb",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        220,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "binaryPropertyName": "=data",
+        "options": {
+          "purpose": "assistants"
+        }
+      },
+      "id": "7dec0381-73b8-429f-b9e8-332233866765",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.5,
+      "position": [
+        660,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": " https://api.openai.com/v1/vector_stores/vs_67faf23b68308191b90eec98b917bdf3/files",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer <TUAPIKEY>"
+            },
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file_id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "41034b9b-5823-47d1-9928-cfddeefd3e86",
+      "name": "Assign file to VS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_CpXpDSt2rDYvLfYremepOHCD",
+          "mode": "list",
+          "cachedResultName": "udia_libros"
+        },
+        "options": {}
+      },
+      "id": "165ecb50-f191-493a-85b7-e874bd1072ad",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.5,
+      "position": [
+        160,
+        240
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hola, ¿qué libro te interesa hoy?\n",
+        "options": {}
+      },
+      "id": "e57bec86-79b4-4226-aff4-d2c291345fef",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        240
+      ],
+      "webhookId": "4f2c335a-6c4a-446d-b5e5-bb3f82ca89f0"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1gHS7VETm_ZgDeWr9TK5Y9RBiTOhtqWQBAuEdfwu9Y-g",
+          "mode": "list",
+          "cachedResultName": "Libros_Emprendimiento_Separado",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gHS7VETm_ZgDeWr9TK5Y9RBiTOhtqWQBAuEdfwu9Y-g/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 584494291,
+          "mode": "list",
+          "cachedResultName": "Libros_Emprendimiento_Separado",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gHS7VETm_ZgDeWr9TK5Y9RBiTOhtqWQBAuEdfwu9Y-g/edit#gid=584494291"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        200,
+        0
+      ],
+      "id": "fee42b29-75b0-46be-aeb9-565cb110450d",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iQiyCVBs2uBQ1gHj",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Inicializa un array vacío para almacenar las líneas del archivo\nlet lines = [];\n\n// Recorre cada objeto del array y forma una línea con el título y resumen\nitems.forEach(item => {\n  const line = `Título: ${item.json.titulo} - Resumen: ${item.json.resumen}`;\n  lines.push(line);\n});\n\n// Une todas las líneas con saltos de línea\nconst fileContent = lines.join('\\n');\n\n// Convierte el contenido en un buffer binario\nconst buffer = Buffer.from(fileContent, 'utf-8');\n\n// Genera el timestamp Unix ACTUAL\nconst timestamp = Math.floor(Date.now() / 1000);\n\n// Devuelve el archivo como binario con el nombre libros_1680000000.txt (reemplazado)\nreturn {\n  binary: {\n    data: {\n      fileName: `libros_${timestamp}.txt`,\n      mimeType: 'text/plain',\n      data: buffer.toString('base64')\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        360,
+        0
+      ],
+      "id": "41c4749b-c507-42ad-8179-8256b942ff96",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-14T11:07:45.000Z",
+  "versionId": "0c26e0bd-5795-4a5e-b25d-1cd34be19322"
+}
