@@ -1,0 +1,288 @@
+{
+  "active": true,
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-14T11:43:38.155Z",
+  "id": "Q1WkfGVAsPHKwani",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "RAG Chatbot Whatsapp",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "text-embedding-3-small",
+        "options": {}
+      },
+      "id": "8e1c2c81-43aa-4d20-b147-0c24c5572221",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        240
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "Eres un agente experto, profesional y muy amable, especializado en orientar a personas interesadas en formarse en inteligencia artificial y automatizaciones dentro del ecosistema de UDIA.\n\nTienes acceso a toda la información de UDIA a través de la herramienta Infoudia, por lo que puedes responder con precisión, detalle y empatía cualquier consulta relacionada con cursos, herramientas, recursos, instructores, itinerarios de formación o eventos de la plataforma.\n\nTu objetivo es guiar a los usuarios de manera clara, motivadora y personalizada, resolviendo sus dudas y ayudándoles a tomar decisiones informadas sobre su formación en IA y automatización."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -360,
+        -100
+      ],
+      "id": "6bcf8310-76ad-4ab2-a7ba-36758d26d43a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        100
+      ],
+      "id": "e8ca4849-63eb-49f5-9592-c545b460e970",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -300,
+        100
+      ],
+      "id": "98fe0134-618b-4999-9842-fc6813c2985e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "Infoudia",
+        "toolDescription": "Trabaja con tu pinecone vector store donde tienes toda la información sobre UDIA.es y lo que hacen",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ragudia",
+          "mode": "list",
+          "cachedResultName": "ragudia"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        80
+      ],
+      "id": "85bc1e44-4faa-42e4-ad6a-d3e19688f11c",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "HoW0ZiSKvkS6LruJ",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -840,
+        -80
+      ],
+      "id": "b7e6db3f-c276-4f0c-91b2-4db7e91853ef",
+      "name": "WhatsApp Trigger",
+      "webhookId": "0ed622ac-6af4-4814-b1ca-40deeabe78aa",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "NvkN21N29PhX6UtX",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v17.0/661035837086584/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAJEe51ls9oBO6D2aS5UfQRaVPEaM1eAfkZBvZAIpJSkZBWcusvaVLx6AbLctmS2g8ZAdhdrITUkCES8bebmvsqULvJ0VAh1KZCbVJCU8RyZB9geaSkZAoDpynIcBIOB8wi40OfiQTbL41la06NhAfH9PPDVjqfmvCnGORnHRDBxzZCbZACd7vFjbvlWyLykYz9FHpmcJYpf7SLG3VawrQ32zCUiZCRU5ucAaFeChm"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": {{ JSON.stringify($('AI Agent').item.json.output) }}\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        -100
+      ],
+      "id": "1297e6ce-efc2-454e-816c-5e000436314a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1afd4b0d-312a-4837-9533-4386779bc2f9",
+              "leftValue": "={{ $json.messages[0] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -640,
+        -80
+      ],
+      "id": "dfe649eb-e98d-46a4-8439-f454d001f39e",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2025-04-14T14:06:18.000Z",
+  "versionId": "4f9c06fc-fd2d-4547-9c23-5bd0881b3433"
+}
