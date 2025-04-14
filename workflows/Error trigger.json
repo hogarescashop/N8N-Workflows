@@ -1,0 +1,68 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-12T12:44:29.050Z",
+  "id": "4rnuUJQxKyR7MWPB",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Error trigger",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "3efcc122-91a7-497c-998c-9aa9f1e4b390",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "5346776407",
+        "text": "=Error: {{ $json.execution.error.message }}\n\nUltimo nodo ejecutado: {{ $json.execution.lastNodeExecuted }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -20,
+        0
+      ],
+      "id": "52b2ea94-f60d-4c92-bf2c-eafe92015138",
+      "name": "Telegram",
+      "webhookId": "f9e3ccd5-40ef-441f-ad25-c31dd57965c6",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-12T13:22:43.000Z",
+  "versionId": "94eb058f-4d63-4ff9-b852-bec0229928a6"
+}
