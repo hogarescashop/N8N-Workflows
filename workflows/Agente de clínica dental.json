@@ -1,0 +1,190 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-15T11:46:55.637Z",
+  "id": "LipQKF0FhA7y8McU",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Agente de clínica dental",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -880,
+        -100
+      ],
+      "id": "1d873e6d-df6c-40db-820d-c1f318f2c061",
+      "name": "When chat message received",
+      "webhookId": "1f0ba4ac-452b-436a-87f3-a7e82c305ac5"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a virtual agent for Dentalia (dental clinic). Your job is to assist users clearly, professionally, and helpfully.\n\nUse only the information provided by the tool informacion_clinica, which includes details about appointments, services, prices, promotions, locations, pediatric care, and contact information.\n\nDo not make up information. If the tool does not provide the answer, respond politely saying the information is not available.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -660,
+        -100
+      ],
+      "id": "3ed44930-3428-4585-8299-835e50d28f23",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -680,
+        120
+      ],
+      "id": "f2616165-3737-42e6-bd67-c659f9166009",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -520,
+        120
+      ],
+      "id": "0404e2e8-b55b-4a2a-ab93-ea8dc9164609",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "informacion_clinica",
+        "toolDescription": "Work with your Pinecone Vector Store, which contains all the relevant information about the Dentalia dental clinic: services, appointments, promotions, locations, contact details, and pediatric care. Use this source as the basis to respond accurately.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ragclinica",
+          "mode": "list",
+          "cachedResultName": "ragclinica"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        -380,
+        80
+      ],
+      "id": "a46c05c0-8178-4763-b52a-5cc836c240f7",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "wu2qur6PtWbA9TSs",
+          "name": "PineconeApi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        240
+      ],
+      "id": "1c5a8cb7-3b7b-434b-84c9-0e0753fd982a",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-15T15:53:56.000Z",
+  "versionId": "d6e8545e-b44d-48d8-a30c-ca13fbc1f1fb"
+}
