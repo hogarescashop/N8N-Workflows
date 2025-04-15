@@ -23,17 +23,6 @@
         ]
       ]
     },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Simple Memory": {
       "ai_memory": [
         [
@@ -47,10 +36,20 @@
     },
     "Pinecone Vector Store1": {
       "ai_tool": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
         [
           {
             "node": "AI Agent",
-            "type": "ai_tool",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -102,7 +101,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "Eres un agente experto, profesional y muy amable, especializado en orientar a personas interesadas en formarse en inteligencia artificial y automatizaciones dentro del ecosistema de UDIA.\n\nTienes acceso a toda la información de UDIA a través de la herramienta Infoudia, por lo que puedes responder con precisión, detalle y empatía cualquier consulta relacionada con cursos, herramientas, recursos, instructores, itinerarios de formación o eventos de la plataforma.\n\nTu objetivo es guiar a los usuarios de manera clara, motivadora y personalizada, resolviendo sus dudas y ayudándoles a tomar decisiones informadas sobre su formación en IA y automatización."
+          "systemMessage": "Eres un agente experto, profesional y muy amable, especializado en orientar a personas interesadas en formarse en inteligencia artificial y automatizaciones dentro del ecosistema de UDIA. \n\nTienes acceso a toda la información de UDIA a través de la herramienta Infoudia, por lo que puedes responder con precisión, detalle y empatía cualquier consulta relacionada con cursos, herramientas, recursos, instructores, itinerarios de formación o eventos de la plataforma.\n\nTu objetivo es guiar a los usuarios de manera clara, motivadora y personalizada, resolviendo sus dudas y ayudándoles a tomar decisiones informadas sobre su formación en IA y automatización."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -113,31 +112,6 @@
       ],
       "id": "bbbc7972-0f6d-4ba2-9400-59614692590d",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        -420,
-        100
-      ],
-      "id": "31c110bf-d258-4c8a-92d2-e511433b1054",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "Tnc8Gv0yuvWrwgr0",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {},
@@ -167,8 +141,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.1,
       "position": [
-        -140,
-        80
+        0,
+        180
       ],
       "id": "fe67d061-2f6a-4083-9f8f-74f52ea6b995",
       "name": "Pinecone Vector Store1",
@@ -176,6 +150,51 @@
         "pineconeApi": {
           "id": "HoW0ZiSKvkS6LruJ",
           "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -600,
+        120
+      ],
+      "id": "31c110bf-d258-4c8a-92d2-e511433b1054",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        100
+      ],
+      "id": "575a5eb4-fba3-438c-9f7c-721626c6e709",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "I9eAoxWbkMdt7rhQ",
+          "name": "Ollama account"
         }
       }
     }
@@ -187,6 +206,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-04-14T11:43:18.000Z",
-  "versionId": "9e93b4a6-a5ef-478a-891b-8ac7f40d85ab"
+  "updatedAt": "2025-04-15T09:00:37.000Z",
+  "versionId": "39a385d2-a960-4e14-8d32-8356a292e223"
 }
