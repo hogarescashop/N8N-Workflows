@@ -1,0 +1,199 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NASA": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bitly": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-15T13:06:23.167Z",
+  "id": "VDxxmlzmYNLYAAHm",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Nuevas herramientas",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -400,
+        -60
+      ],
+      "id": "2b285747-3d8d-4a34-9538-939227fbb66f",
+      "name": "When chat message received",
+      "webhookId": "35053b93-7abc-47f6-a96d-9c88924d8849"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -180,
+        -60
+      ],
+      "id": "dab2db3f-8125-4e71-bfdf-0d244eda3918",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -260,
+        120
+      ],
+      "id": "92b809e5-8eb7-4b6f-bd14-2fd758ba494a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -100,
+        140
+      ],
+      "id": "d6718416-4313-4408-b70c-3b8370619ffd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "team": "=https://app.clickup.com/90151058183/v/o/4-90154073353-28",
+        "space": "=https://app.clickup.com/90151058183/v/o/5-90156266972-28?pr=90154073353",
+        "folderless": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -60
+      ],
+      "id": "f57b1136-7952-4463-8ee7-290da3922eb1",
+      "name": "ClickUp",
+      "credentials": {
+        "clickUpOAuth2Api": {
+          "id": "a8RJdv8ndcIZLmUR",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.nasaTool",
+      "typeVersion": 1,
+      "position": [
+        260,
+        60
+      ],
+      "id": "e7ef08d0-8264-4b3e-aa17-12fd841e0cb8",
+      "name": "NASA"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.bitlyTool",
+      "typeVersion": 1,
+      "position": [
+        140,
+        140
+      ],
+      "id": "bbf47db5-19ed-4022-b9c8-35562a5bc588",
+      "name": "Bitly"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-15T13:57:13.000Z",
+  "versionId": "6a41f2e5-e8b0-4083-8cf8-726d904aabd8"
+}
