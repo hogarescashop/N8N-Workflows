@@ -1,0 +1,399 @@
+{
+  "active": false,
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sentiment Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sentiment Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sentiment Analysis": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-15T14:05:37.369Z",
+  "id": "3Zy2ozIakYWEQr0M",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Nuevos agentes/human loop",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -840,
+        240
+      ],
+      "id": "41b1f2d8-6826-4207-aade-5428ca37eca2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Tnc8Gv0yuvWrwgr0",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.chatInput }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "nombre_empresa",
+              "description": "es el nombre de la empresa indicada"
+            },
+            {
+              "name": "importe",
+              "description": "importe de la venta o la compra de la factura "
+            },
+            {
+              "name": "tipo_operación",
+              "description": "si es un gasto o un ingreso"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        -320
+      ],
+      "id": "b2a7f217-1cab-4bfe-90de-b9742fb20550",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.chatInput }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
+      "typeVersion": 1,
+      "position": [
+        -1100,
+        0
+      ],
+      "id": "adf00179-ac52-4e7b-a7e6-7e319898e208",
+      "name": "Sentiment Analysis"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.chatInput }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Deportes",
+              "description": "Si trata de deportes clasifícalo como deportes"
+            },
+            {
+              "category": "Novelas ",
+              "description": "Si trata sobre novelas clasifícalo como novelas"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        -160
+      ],
+      "id": "bd8f7053-7d6e-4a25-a075-1fe52d1eb8d9",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1520,
+        -240
+      ],
+      "id": "267c235f-5130-4c69-a958-57f6c0d72683",
+      "name": "When chat message received",
+      "webhookId": "61194472-dfcd-40cb-b4ea-27d6ca098f7c"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "telomonta@gmail.com",
+        "subject": "Confirmación",
+        "message": "={{ $json.chatInput }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double",
+            "approveLabel": "Confirmar ",
+            "disapproveLabel": "Cancelar "
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -580,
+        -140
+      ],
+      "id": "a08588fb-1356-490c-95f2-3d4dbf593f6b",
+      "name": "Gmail",
+      "webhookId": "d490ea70-c36b-492e-bc42-bc1bf2e58684",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kJt9IP9V0W4Sgtos",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "hogarescashop@gmail.com",
+        "subject": "Hello ",
+        "message": "={{ $('Sentiment Analysis').item.json.chatInput }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -140,
+        -160
+      ],
+      "id": "147c27ab-4381-428d-a025-36e00a70e54d",
+      "name": "Gmail1",
+      "webhookId": "d172e915-3604-47c2-b88e-53cc2f9f05a7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kJt9IP9V0W4Sgtos",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "5346776407",
+        "message": "={{ $json.chatInput }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -560,
+        20
+      ],
+      "id": "996fead6-7242-4802-8f3f-44be757faa7a",
+      "name": "Telegram",
+      "webhookId": "1a310403-50ea-4ca6-b125-c0921b1024af",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5346776407",
+        "text": "={{ $json.chatInput }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -140,
+        20
+      ],
+      "id": "80861c53-025a-46d0-b857-b5dd5f052439",
+      "name": "Telegram1",
+      "webhookId": "4800c483-d657-4f2a-bf5e-eaa75f50fef4",
+      "credentials": {
+        "telegramApi": {
+          "id": "itcrLY7fPnswFmkr",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c311e3e4-3f85-47e1-8a5b-a425d3b06f65",
+              "leftValue": "={{ $json.data.approved === true }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -340,
+        20
+      ],
+      "id": "b1f7117f-eb49-47f4-af82-2aa89a9b8466",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7b6b58f7-4353-4cf0-b17b-025654879446",
+              "leftValue": "={{ $json.data.approved === true }}",
+              "rightValue": "approved",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        -140
+      ],
+      "id": "8cc0e372-76dc-43fb-a2a5-fa1eeaffbd75",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-15T16:09:37.000Z",
+  "versionId": "8f7ddd15-2065-4092-8b76-8b47181caffc"
+}
